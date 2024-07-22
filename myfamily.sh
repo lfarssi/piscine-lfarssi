@@ -1,1 +1,2 @@
-curl https://learn.zone01oujda.ma/assets/superhero/all.json | jq '.[] | select(.id=='$HERO_ID') .connections | .relatives' | tr -d '"'
+#!/bin/bash
+find . -type f -name "*.sh" -exec basename {} .sh ; | sort -r
