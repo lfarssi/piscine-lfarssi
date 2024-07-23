@@ -16,12 +16,11 @@ func PrintComb2() {
 						if !(a == '9' || b == '8' || c == '9' || d == '9') {
 							z01.PrintRune(',')
 							z01.PrintRune(' ')
-						} else {
-							z01.PrintRune('\n')
 						}
 					}
 				}
 			}
 		}
 	}
+	z01.PrintRune('\n')
 }
