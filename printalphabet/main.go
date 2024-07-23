@@ -2,9 +2,9 @@ package main
 
 import "github.com/01-edu/z01"
 
-func main(){
+func main() {
 	var r rune 
-	for r = 'a' ; r <= 'z' ; r++ {
+	for r = 'a'; r <= 'z' ; r++ {
 		z01.PrintRune(r)
 	}
 	z01.PrintRune('\n')
