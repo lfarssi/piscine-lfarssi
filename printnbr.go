@@ -10,9 +10,9 @@ func PrintNbr(n int) {
 
 	if n < 0 {
 		z01.PrintRune('-')
-		if n == -9223372036854775808 { 
+		if n == -9223372036854775808 {
 			printDigits(-(n / 10))
-			z01.PrintRune('8')     
+			z01.PrintRune('8')
 			return
 		}
 		n = -n
