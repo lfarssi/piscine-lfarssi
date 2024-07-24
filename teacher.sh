@@ -6,12 +6,12 @@ echo $(find -name "*mystery*")
 echo ">>>"
 for d in *mystery*/ ; 
 do 
-    if [ -z "$d" ]
-        then
-            # echo "$inter_id continue"
-            continue        
+    if [ ! -d "$d" ]; then
+        echo "No directories matching *mystery* found."
+        continue
     fi
-    cd $d
+
+    cd "$d" || exit 1  # Exit if cd fails
     # GENDER and HEIGHT 
     scene=$(grep "CLUE" crimescene | head -n 1)
     gender=$( echo "$scene" | cut -d ' ' -f18 | tr -d ,)
@@ -22,14 +22,12 @@ do
         w_full_name=$( echo "$people" | awk '{ print $1, $2 }')
         w_gender=$( echo "$people" | awk '{ print $3 }')
         w_age=$( echo "$people" | awk '{ print $4 }')
-        w_adress=$( echo "$people" | awk  '{ printf("%s_%s",$5,$6) }' | tr -d ',')
+        w_address=$( echo "$people" | awk  '{ printf("%s_%s",$5,$6) }' | tr -d ',')
         w_line=$( echo "$people" | awk '{ print $8 }')
         # find INTERVIEW by ADDRESS
-        inter_id=$(head -n $w_line streets/$w_adress | tail -n 1 | cut -f 2 -d '#' )
+        inter_id=$(head -n $w_line streets/$w_address | tail -n 1 | cut -f 2 -d '#' )
         interview=$(cat interviews/interview-$inter_id | grep -oP '(?<= Describes it as )\w.*' | tr -d '\",')
-        if [ -z "$interview" ]
-        then
-            # echo "$inter_id continue"
+        if [ -z "$interview" ]; then
             continue        
         fi
         export interview_id=$inter_id
@@ -44,8 +42,7 @@ do
         suspects=($(echo "|$suspects" | awk 'BEGIN {ORS = "|" } { print }' | tr -s ' ' '_' | tr -s '--' '-' | tr -s '-' ' '))
         main_suspect=0
         ind=1
-        for suspect in "${suspects[@]}";
-        do
+        for suspect in "${suspects[@]}"; do
             sus_plate=$(echo "$suspect" | cut -d '|' -f 2 | cut -d ':' -f 2 | cut -d '_' -f 3)
             sus_make=$(echo "$suspect" | cut -d '|' -f 3 | cut -d ':' -f 2 | tr -s '_' ' ' | xargs)
             sus_color=$(echo "$suspect" | cut -d '|' -f 4 | cut -d ':' -f 2 | tr -s '_' ' ' | xargs)
@@ -60,13 +57,11 @@ do
             echo "$sus_name"
             echo "$sus_height"
 
-            if [ $sus_weight -gt 200 ]
-            then 
+            if [ $sus_weight -gt 200 ]; then 
                 sus_weight_text='male'
             fi
             tmp_count=$(cat memberships/AAA memberships/Delta_SkyMiles memberships/Terminal_City_Library memberships/Museum_of_Bash_History | grep -c "${sus_name}")
-            if [ $tmp_count > 4 ] && [ $sus_weight_text == $gender ]
-            then
+            if [ $tmp_count -gt 4 ] && [ $sus_weight_text == $gender ]; then
                 main_suspect=$ind
             fi
             ind=$((ind+1))
@@ -74,4 +69,5 @@ do
         echo $main_suspect
         export MAIN_SUSPECT=$main_suspect
     done
+    cd ..  # Return to previous directory after processing
 done
