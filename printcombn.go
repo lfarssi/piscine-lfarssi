@@ -1,11 +1,6 @@
 package piscine
 
-import (
-	"fmt"
-
-	
-	"github.com/01-edu/z01"
-)
+import "github.com/01-edu/z01"
 
 func PrintCombN(n int) {
 	if n <= 0 || n >= 10 {
@@ -33,7 +28,7 @@ func generateCombinations(n int, start int, prefix string) []string {
 
 	combinations := []string{}
 	for i := start; i <= 9; i++ {
-		newPrefix := fmt.Sprintf("%s%d", prefix, i)
+		newPrefix := prefix + string('0'+i)
 		combinations = append(combinations, generateCombinations(n-1, i+1, newPrefix)...)
 	}
 	return combinations
