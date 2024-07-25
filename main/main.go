@@ -1,7 +1,12 @@
 package main
 
-import "piscine"
+import (
+	"fmt"
+	"piscine"
+)
 
 func main() {
-	piscine.PrintNbr(-6)
+	n := 0
+	piscine.PointOne(&n)
+	fmt.Println(n)
 }
