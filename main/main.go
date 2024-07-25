@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println(piscine.BasicAtoi("12345"))
-	fmt.Println(piscine.BasicAtoi("0000000012345"))
-	fmt.Println(piscine.BasicAtoi("000000"))
+	s := []int{5,4,3,2,1,0}
+	piscine.SortIntegerTable(s)
+	fmt.Println(s)
 }
