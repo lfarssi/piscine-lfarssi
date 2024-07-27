@@ -1,12 +1,32 @@
 package main
 
-import (
-	"fmt"
-	"piscine"
-)
+import "fmt"
 
 func main() {
-	s := []int{5, 4, 3, 2, 1}
-	piscine.SortIntegerTable(s)
-	fmt.Println(s)
+	QuadA(1,3)
+}
+
+func QuadA(x,y int) {
+	if x > 0 && y > 0 {	
+	c := "-" 
+	d := " "
+	fmt.Printf("°")
+	for  range x {
+		fmt.Printf("%v",c)
+		}
+	fmt.Printf("°\n")
+
+		fmt.Printf("|")
+		for range x {
+			fmt.Printf("%v",d)
+		}
+		fmt.Printf("|\n")
+
+
+	fmt.Printf("°")
+	for  range x {
+		fmt.Printf("%v",c)
+		}
+	fmt.Printf("°\n")
+	}
 }
