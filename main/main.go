@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	arg := 5
-	fmt.Println(piscine.RecursivePower(arg, 2))
+	arg1 :=15
+	fmt.Println(piscine.Fibonacci(arg1))
 }
