@@ -1,7 +1,11 @@
 package main
 
-import "piscine"
+import (
+	"fmt"
+	"piscine"
+)
 
 func main() {
-	piscine.Triangle(4,3)
+	arg := 4
+	fmt.Println(piscine.IterativeFactorial(arg))
 }
