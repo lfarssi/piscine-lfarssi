@@ -10,8 +10,5 @@ func Sqrt(nb int) int {
 			r = i
 		}
 	}
-	if nb%2 != 0 {
-		r = 0
-	}
 	return r
 }
