@@ -6,7 +6,7 @@ func IsPrime(nb int) bool {
 		return false
 	} else if nb == 2 {
 		r = true
-	} else if nb%2 == 0 {
+	} /*else if nb%2 == 0 {
 		r = false
 	} else {
 		for i := 3; i <= Sqrt(nb); i += 2 {
@@ -14,18 +14,10 @@ func IsPrime(nb int) bool {
 				r = true
 			}
 		}
-	}
-	return r
-}
-
-func Sqrt(nb int) int {
-	if nb == 1 {
-		return 1
-	}
-	r := 0
-	for i := 1; i <= nb; i++ {
-		if i*i == nb {
-			r = i
+	}*/
+	for i := 2; i <= nb; i++ {
+		if nb%i == 0 {
+			r = false
 		}
 	}
 	return r
