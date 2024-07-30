@@ -22,7 +22,7 @@ func IsPrimes(nb int) bool {
 	if nb%2 == 0 {
 		return false
 	}
-	for i := 3; i <= Sqrtt(nb); i += 2 {
+	for i := 3; i <= Sqrttt(nb); i += 2 {
 		if nb%i == 0 {
 			return false
 		}
@@ -30,7 +30,7 @@ func IsPrimes(nb int) bool {
 	return true
 }
 
-func Sqrtt(nb int) int {
+func Sqrttt(nb int) int {
 	if nb <= 0 {
 		return 0
 	}
