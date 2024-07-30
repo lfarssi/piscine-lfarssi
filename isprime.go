@@ -9,7 +9,7 @@ func IsPrime(nb int) bool {
 	} else if nb%2 == 0 {
 		r = false
 	} else {
-		for i := 3; i <= Sqrt(nb); i + 2 {
+		for i := 3; i <= Sqrt(nb); i += 2 {
 			if nb%i == 0 {
 				r = true
 			}
