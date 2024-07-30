@@ -1,6 +1,6 @@
 package piscine
 
-func ToUpper(s string) string {
+func ToLower(s string) string {
 	var res []rune
 	for _, i := range s {
 		if i >= 'A' && i <= 'Z' {
