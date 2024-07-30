@@ -17,6 +17,7 @@ func IsPrime(nb int) bool {
 	}
 	return true
 }
+
 func Sqrtt(nb int) int {
 	if nb <= 0 {
 		return 0
