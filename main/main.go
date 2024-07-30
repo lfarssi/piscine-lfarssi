@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println(piscine.IsUpper("HELLO"))
-	fmt.Println(piscine.IsUpper("HELLO!"))
-
+	fmt.Println(piscine.IsPrime(5))
+	fmt.Println(piscine.IsPrime(4))
 }
