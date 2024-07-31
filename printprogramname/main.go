@@ -11,7 +11,6 @@ import (
 func main() {
 	name := os.Args[0]
 	n := filepath.Base(name)
-
 	for _, val := range n {
 		z01.PrintRune(val)
 	}
