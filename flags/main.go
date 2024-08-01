@@ -27,11 +27,19 @@ func main() {
 				length = j + 1
 			}
 			if length > 9 && arg[:9] == "--insert=" {
-				runes = []rune(arg[9:])
+				runes_temp := []rune(arg[9:])
+
+				for i := 0; i < length-9; i++ {
+					runes = append(runes, runes_temp[i])
+				}
 				insert = true
 
 			} else if length > 3 && arg[:3] == "-i=" {
-				runes = []rune(arg[3:])
+				runes_temp := []rune(arg[3:])
+
+				for i := 0; i < length-3; i++ {
+					runes = append(runes, runes_temp[i])
+				}
 				insert = true
 
 			} else if (length == 7 && arg[:7] == "--order") || (length == 2 && arg[:2] == "-o") {
@@ -39,7 +47,10 @@ func main() {
 				order_prev = true
 				continue
 			} else if order_prev {
-				runes = []rune(arg)
+				runes_temp := []rune(arg)
+				for i := range runes_temp {
+					runes = append(runes, runes_temp[i])
+				}
 			} else {
 				runes_print := []rune(arg)
 				if order {
