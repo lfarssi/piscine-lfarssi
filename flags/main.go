@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	
 	"os"
 
 	"github.com/01-edu/z01"
@@ -28,19 +27,11 @@ func main() {
 				length = j + 1
 			}
 			if length > 9 && arg[:9] == "--insert=" {
-				runes_temp := []rune(arg[9:])
-
-				for i := 0; i < length-9; i++ {
-					runes = append(runes, runes_temp[i])
-				}
+				runes = []rune(arg[9:])
 				insert = true
 
 			} else if length > 3 && arg[:3] == "-i=" {
-				runes_temp := []rune(arg[3:])
-
-				for i := 0; i < length-3; i++ {
-					runes = append(runes, runes_temp[i])
-				}
+				runes = []rune(arg[3:])
 				insert = true
 
 			} else if (length == 7 && arg[:7] == "--order") || (length == 2 && arg[:2] == "-o") {
@@ -48,10 +39,7 @@ func main() {
 				order_prev = true
 				continue
 			} else if order_prev {
-				runes_temp := []rune(arg)
-				for i := range runes_temp {
-					runes = append(runes, runes_temp[i])
-				}
+				runes = []rune(arg)
 			} else {
 				runes_print := []rune(arg)
 				if order {
