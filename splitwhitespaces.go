@@ -7,6 +7,7 @@ func SplitWhiteSpaces(s string) []string {
 		if i == 32 || i == '\t' || i == '\n' {
 			if len(r) > 0 {
 				arr = append(arr, r)
+				r = ""
 			}
 		} else {
 			r += string(i)
