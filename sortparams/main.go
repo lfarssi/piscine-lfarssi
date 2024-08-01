@@ -7,13 +7,18 @@ import (
 )
 
 func main() {
-	for _, i := range os.Args[1:] {
-		runes := []rune(i)
-		for j := range runes {
-			if runes[j] > runes[j+1] {
-				runes[j], runes[j+1] = runes[j+1], runes[j]
+	for _, val := range os.Args[1:] {
+		runes := []rune(val)
+		n := len(runes)
+		for i := 0; i < n-1; i++ {
+			for j := 0; j < n-i-1; j++ {
+				if runes[j] > runes[j+1] {
+					runes[j], runes[j+1] = runes[j+1], runes[j]
+				}
 			}
-			z01.PrintRune(runes[j])
+		}
+		for _, j := range runes {
+			z01.PrintRune(j)
 		}
 		z01.PrintRune('\n')
 	}
