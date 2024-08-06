@@ -1,69 +1,41 @@
 package main
 
 import (
+	"io"
 	"os"
 
 	"github.com/01-edu/z01"
 )
 
+func printError(message string) {
+	for _, c := range message {
+		z01.PrintRune(c)
+	}
+}
+
 func main() {
-	if len(os.Args) == 1 {
-		// No arguments: read from standard input
-		buffer := make([]byte, 1024)
-		for {
-			n, err := os.Stdin.Read(buffer)
-			if n > 0 {
-				printBytes(buffer[:n])
-			}
-			if err != nil {
-				if err.Error() != "EOF" {
-					printError("ERROR: %v\n", err)
-				}
-				break
-			}
+	if len(os.Args) < 2 {
+		_, err := io.Copy(os.Stdout, os.Stdin)
+		if err != nil {
+			printError("Error reading from stdin: " + err.Error() + "\n")
+			os.Exit(1)
 		}
-	} else {
-		// Read from files specified as command-line arguments
-		for _, fileName := range os.Args[1:] {
-			file, err := os.Open(fileName)
-			if err != nil {
-				printError("ERROR: open %s: %v\n", fileName, err)
-				continue
-			}
-			buffer := make([]byte, 1024)
-			for {
-				n, err := file.Read(buffer)
-				if n > 0 {
-					printBytes(buffer[:n])
-				}
-				if err != nil {
-					if err.Error() != "EOF" {
-						printError("ERROR: %v\n", err)
-					}
-					break
-				}
-			}
-			file.Close()
+		return
+	}
+
+	for _, fileName := range os.Args[1:] {
+		file, err := os.Open(fileName)
+		if err != nil {
+			printError("ERROR: " + err.Error() + "\n")
+			os.Exit(1)
+			continue
 		}
-	}
-}
+		defer file.Close()
 
-func printBytes(data []byte) {
-	for _, b := range data {
-		z01.PrintRune(rune(b))
-	}
-}
-
-func printError(format string, args ...interface{}) {
-	for _, r := range format {
-		z01.PrintRune(r)
-	}
-	for _, arg := range args {
-		switch v := arg.(type) {
-		case error:
-			printBytes([]byte(v.Error()))
-		default:
-			// Handle other types if needed
+		_, err = io.Copy(os.Stdout, file)
+		if err != nil {
+			printError("Error reading from file " + fileName + ": " + err.Error() + "\n")
+			os.Exit(1)
 		}
 	}
 }
