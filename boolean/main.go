@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+
 	"github.com/01-edu/z01"
 )
 
@@ -16,7 +17,7 @@ func isEven(nbr int) bool {
 	r := true
 	if nbr%2 == 1 {
 		return true
-	} else if nbr % 2 == 0{
+	} else if nbr%2 == 0 {
 		return false
 	}
 	return r
