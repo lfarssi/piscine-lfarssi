@@ -93,7 +93,7 @@ func main() {
 	for j, fileName := range files {
 		fi, err := os.Open(fileName)
 		if err != nil {
-			fmt.Printf("tail: cannot open '%s' for reading: No such file or directory\n", fileName)
+			fmt.Printf("open %s: %s\n", fileName, err.Error())
 			os.Exit(1)
 		}
 		defer fi.Close()
