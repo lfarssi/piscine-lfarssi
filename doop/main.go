@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"math"
+	"os"
 )
 
 func main() {
