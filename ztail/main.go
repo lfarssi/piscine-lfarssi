@@ -89,16 +89,21 @@ func main() {
 	}
 
 	printName := len(files) > 1
+	exitStatus := 0
 
 	for j, fileName := range files {
 		fi, err := os.Open(fileName)
 		if err != nil {
 			fmt.Printf("open %s: %s\n", fileName, err.Error())
-			os.Exit(1)
+			exitStatus = 1
+			continue
 		}
 		defer fi.Close()
 
 		if printName {
+			if j > 0 {
+				fmt.Println()
+			}
 			fmt.Printf("==> %s <==\n", fileName)
 		}
 
@@ -119,4 +124,6 @@ func main() {
 			fmt.Println()
 		}
 	}
+
+	os.Exit(exitStatus)
 }
