@@ -104,10 +104,10 @@ func mod(num1, num2 int) int {
 	return num1 % num2
 }
 
-// printResult converts an integer to a string and writes it to stdout manually.
+// printResult converts an integer to a string and writes it to stdout with a newline.
 func printResult(result int) {
 	if result == 0 {
-		os.Stdout.Write([]byte("0"))
+		os.Stdout.Write([]byte("0\n"))
 		return
 	}
 
@@ -125,9 +125,10 @@ func printResult(result int) {
 	}
 
 	os.Stdout.Write(temp)
+	os.Stdout.Write([]byte("\n"))
 }
 
-// printError prints an error message to stdout.
+// printError prints an error message followed by a newline to stdout.
 func printError(message string) {
-	os.Stdout.Write([]byte(message))
+	os.Stdout.Write([]byte(message + "\n"))
 }
