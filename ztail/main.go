@@ -2,64 +2,87 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"strconv"
+
+	"github.com/01-edu/z01"
 )
 
-func main() {
-	args := os.Args[1:]
-	if len(args) == 0 {
-		fmt.Println("Usage: <program> <number_of_bytes> <file1> [<file2> ...]")
-		return
-	}
+func numberOfBytes(args []string) (int, []string) {
+	n := len(args)
+	nbytes := 0
+	var files []string
+	for i, v := range args {
+		var err error
+		_, err = strconv.Atoi(v)
+		if v == "-c" {
+			if i >= n-1 {
+				fmt.Printf("tail: option requires an argument -- 'c'\nTry 'tail --help' for more information.")
+				os.Exit(1)
+			}
+			arg := args[i+1]
 
-	numBytes, err := strconv.Atoi(args[0])
-	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
-		return
-	}
+			nbytes, err = strconv.Atoi(arg)
+			if err != nil {
+				fmt.Printf("tail: invalid number of bytes: %s\n", arg)
+				os.Exit(1)
+			}
+			continue
+		}
 
-	if len(args) < 2 {
-		fmt.Println("Error: File name missing")
-		return
-	}
+		if err != nil {
+			files = append(files, v)
+		}
 
-	for _, fileName := range args[1:] {
-		ztail(fileName, numBytes)
 	}
+	return nbytes, files
 }
 
-func ztail(fileName string, numBytes int) {
-	file, err := os.Open(fileName)
+func fileSize(fi *os.File) int64 {
+	fil, err := fi.Stat()
 	if err != nil {
-		fmt.Printf("Error opening file '%s': %s\n", fileName, err.Error())
-		return
-	}
-	defer file.Close()
-
-	fileInfo, err := file.Stat()
-	if err != nil {
-		fmt.Printf("Error getting file info for '%s': %s\n", fileName, err.Error())
-		return
+		fmt.Println(err.Error())
+		return 0
 	}
 
-	fileSize := fileInfo.Size()
-	if numBytes > int(fileSize) {
-		numBytes = int(fileSize)
+	return fil.Size()
+}
+
+func main() {
+	n := len(os.Args)
+	if n < 4 {
+		fmt.Println("Not enough arguments")
+		os.Exit(1)
 	}
 
-	_, err = file.Seek(-int64(numBytes), io.SeekEnd)
-	if err != nil {
-		fmt.Printf("Error seeking file '%s': %s\n", fileName, err.Error())
-		return
-	}
-	data := make([]byte, numBytes)
-	_, err = file.Read(data)
-	if err != nil && err != io.EOF {
-		fmt.Printf("Error reading file '%s': %s\n", fileName, err.Error())
-		return
-	}
+	nbytes, files := numberOfBytes(os.Args[1:])
 
-	fmt.Printf("%s", data)
+	printName := len(files) > 1
+
+	// open files for reading only
+	for j, f := range files {
+		fi, err := os.Open(f)
+		if err != nil {
+			fmt.Printf("tail: cannot open '%s' for reading: No such file or directory\n", f)
+			os.Exit(1)
+		}
+		if printName {
+			fmt.Printf("==> %s <==\n", f)
+		}
+		read := make([]byte, int(nbytes))
+		_, er := fi.ReadAt(read, fileSize(fi)-int64(nbytes))
+		if er != nil {
+			fmt.Println(er.Error())
+		}
+
+		for _, c := range read {
+			z01.PrintRune(rune(c))
+		}
+
+		if j < len(files)-1 {
+			z01.PrintRune('\n')
+		}
+
+		fi.Close()
+	}
 }
