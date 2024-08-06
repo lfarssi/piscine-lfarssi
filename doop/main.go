@@ -1,169 +1,90 @@
 package main
 
-import (
-	"math"
-	"os"
-)
+import "os"
 
 func main() {
-	if len(os.Args) != 4 {
-		return // Invalid number of arguments
-	}
-
-	val1Str := os.Args[1]
-	op := os.Args[2]
-	val2Str := os.Args[3]
-
-	val1, err1 := parseInt(val1Str)
-	val2, err2 := parseInt(val2Str)
-
-	if err1 != nil || err2 != nil {
-		return // Invalid values
-	}
-
-	var result int
-	switch op {
-	case "+":
-		if isOverflow(val1, val2, "+") {
-			return // Overflow detected
+	if len(os.Args) == 4 {
+		args := os.Args[1:]
+		operand1, isValid1 := Atoi(args[0])
+		operator := args[1]
+		operand2, isValid2 := Atoi(args[2])
+		if isValid1 && isValid2 {
+			if operator == "+" {
+				if operand1 < 2147483647 && operand2 < 2147483647 {
+					PrintNbr(operand1 + operand2)
+				}
+			} else if operator == "-" {
+				if operand1 > -2147483648 && operand2 > -2147483648 {
+					PrintNbr(operand1 - operand2)
+				}
+			} else if operator == "*" {
+				if operand1 < 2147483647 && operand2 < 2147483647 {
+					PrintNbr(operand1 * operand2)
+				}
+			} else if operator == "/" {
+				if operand2 != 0 {
+					PrintNbr(operand1 / operand2)
+				} else {
+					os.Stdout.WriteString("No division by 0\n")
+				}
+			} else if operator == "%" {
+				if operand2 != 0 {
+					PrintNbr(operand1 % operand2)
+				} else {
+					os.Stdout.WriteString("No modulo by 0\n")
+				}
+			}
 		}
-		result = add(val1, val2)
-	case "-":
-		if isOverflow(val1, val2, "-") {
-			return // Overflow detected
-		}
-		result = sub(val1, val2)
-	case "*":
-		if isOverflow(val1, val2, "*") {
-			return // Overflow detected
-		}
-		result = mult(val1, val2)
-	case "/":
-		if val2 == 0 {
-			printError("No division by 0")
-			return
-		}
-		result = div(val1, val2)
-	case "%":
-		if val2 == 0 {
-			printError("No modulo by 0")
-			return
-		}
-		result = mod(val1, val2)
-	default:
-		return // Invalid operator
 	}
-
-	printResult(result)
 }
 
-// parseInt converts a string to an integer manually without using strconv.
-func parseInt(s string) (int, error) {
-	if len(s) == 0 {
-		return 0, &parseIntError{s}
-	}
-
-	var num int
-	sign := 1
-	start := 0
-
-	if s[0] == '-' {
-		sign = -1
-		start = 1
-	} else if s[0] == '+' {
-		start = 1
-	}
-
-	for i := start; i < len(s); i++ {
-		ch := s[i]
-		if ch < '0' || ch > '9' {
-			return 0, &parseIntError{s}
+func Atoi(s string) (int, bool) {
+	number := 0
+	if len(s) > 0 {
+		factor := 1
+		for i := len(s) - 1; i >= 0; i-- {
+			if s[i] < '0' || s[i] > '9' {
+				if i != 0 || (s[0] != '-' && s[0] != '+') {
+					return 0, false
+				}
+			}
+			if s[i] != '-' && s[i] != '+' {
+				number += (int(s[i]) - 48) * factor
+				factor = factor * 10
+			}
 		}
-		num = num*10 + int(ch-'0')
-	}
-
-	return num * sign, nil
-}
-
-// parseIntError represents an error for parseInt function.
-type parseIntError struct {
-	str string
-}
-
-func (e *parseIntError) Error() string {
-	return "invalid syntax for parsing integer: " + e.str
-}
-
-func add(num1, num2 int) int {
-	return num1 + num2
-}
-
-func sub(num1, num2 int) int {
-	return num1 - num2
-}
-
-func mult(num1, num2 int) int {
-	return num1 * num2
-}
-
-func div(num1, num2 int) int {
-	return num1 / num2
-}
-
-func mod(num1, num2 int) int {
-	return num1 % num2
-}
-
-// isOverflow checks if the operation causes an overflow.
-func isOverflow(num1, num2 int, op string) bool {
-	switch op {
-	case "+":
-		return (num2 > 0 && num1 > math.MaxInt-int(num2)) || (num2 < 0 && num1 < math.MinInt-int(num2))
-	case "-":
-		return (num2 < 0 && num1 > math.MaxInt+int(num2)) || (num2 > 0 && num1 < math.MinInt+int(num2))
-	case "*":
-		if num1 > 0 && num2 > 0 {
-			return num1 > math.MaxInt/num2
+		if s[0] == '-' {
+			return -number, true
 		}
-		if num1 < 0 && num2 < 0 {
-			return num1 < math.MaxInt/num2
-		}
-		if num1 > 0 && num2 < 0 {
-			return num2 < math.MinInt/num1
-		}
-		if num1 < 0 && num2 > 0 {
-			return num1 < math.MinInt/num2
-		}
-		return false
 	}
-	return false
+	return number, true
 }
 
-// printResult converts an integer to a string and writes it to stdout with a newline.
-func printResult(result int) {
-	if result == 0 {
-		os.Stdout.Write([]byte("0\n"))
-		return
+func PrintNbr(n int) {
+	slicedNumber := []int{}
+	index := 0
+	isMinIntValue := false
+	if n < 0 {
+		os.Stdout.WriteString("-")
+		if n == -9223372036854775808 {
+			n = n + 1
+			isMinIntValue = true
+		}
+		n = -1 * n
+	} else if n == 0 {
+		os.Stdout.WriteString("0")
 	}
-
-	if result < 0 {
-		os.Stdout.Write([]byte("-"))
-		result = -result
+	for n > 0 {
+		slicedNumber = append(slicedNumber, n%10)
+		n = n / 10
+		index++
 	}
-
-	// Build the string representation of the number
-	var digits []byte
-	for result > 0 {
-		digit := result % 10
-		digits = append([]byte{byte('0' + digit)}, digits...)
-		result /= 10
+	for i := len(slicedNumber) - 1; i >= 0; i-- {
+		if isMinIntValue && i == 0 {
+			os.Stdout.WriteString("8")
+		} else {
+			os.Stdout.WriteString(string(rune(48 + slicedNumber[i])))
+		}
 	}
-
-	os.Stdout.Write(digits)
-	os.Stdout.Write([]byte("\n"))
-}
-
-// printError prints an error message followed by a newline to stdout.
-func printError(message string) {
-	os.Stdout.Write([]byte(message + "\n"))
+	os.Stdout.WriteString("\n")
 }
