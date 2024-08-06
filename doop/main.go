@@ -49,7 +49,7 @@ func Atoi(s string) (int, bool) {
 				}
 			}
 			if s[i] != '-' && s[i] != '+' {
-				number += (int(s[i]) - 48) * factor
+				number += (int(s[i]) - '0') * factor
 				factor = factor * 10
 			}
 		}
@@ -83,7 +83,7 @@ func PrintNbr(n int) {
 		if isMinIntValue && i == 0 {
 			os.Stdout.WriteString("8")
 		} else {
-			os.Stdout.WriteString(string(rune(48 + slicedNumber[i])))
+			os.Stdout.WriteString(string(rune('0' + slicedNumber[i])))
 		}
 	}
 	os.Stdout.WriteString("\n")
