@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"math"
 )
 
 func main() {
@@ -23,10 +24,19 @@ func main() {
 	var result int
 	switch op {
 	case "+":
+		if isOverflow(val1, val2, "+") {
+			return // Overflow detected
+		}
 		result = add(val1, val2)
 	case "-":
+		if isOverflow(val1, val2, "-") {
+			return // Overflow detected
+		}
 		result = sub(val1, val2)
 	case "*":
+		if isOverflow(val1, val2, "*") {
+			return // Overflow detected
+		}
 		result = mult(val1, val2)
 	case "/":
 		if val2 == 0 {
@@ -104,6 +114,31 @@ func mod(num1, num2 int) int {
 	return num1 % num2
 }
 
+// isOverflow checks if the operation causes an overflow.
+func isOverflow(num1, num2 int, op string) bool {
+	switch op {
+	case "+":
+		return (num2 > 0 && num1 > math.MaxInt-int(num2)) || (num2 < 0 && num1 < math.MinInt-int(num2))
+	case "-":
+		return (num2 < 0 && num1 > math.MaxInt+int(num2)) || (num2 > 0 && num1 < math.MinInt+int(num2))
+	case "*":
+		if num1 > 0 && num2 > 0 {
+			return num1 > math.MaxInt/num2
+		}
+		if num1 < 0 && num2 < 0 {
+			return num1 < math.MaxInt/num2
+		}
+		if num1 > 0 && num2 < 0 {
+			return num2 < math.MinInt/num1
+		}
+		if num1 < 0 && num2 > 0 {
+			return num1 < math.MinInt/num2
+		}
+		return false
+	}
+	return false
+}
+
 // printResult converts an integer to a string and writes it to stdout with a newline.
 func printResult(result int) {
 	if result == 0 {
@@ -117,14 +152,14 @@ func printResult(result int) {
 	}
 
 	// Build the string representation of the number
-	var temp []byte
+	var digits []byte
 	for result > 0 {
 		digit := result % 10
-		temp = append([]byte{byte('0' + digit)}, temp...)
+		digits = append([]byte{byte('0' + digit)}, digits...)
 		result /= 10
 	}
 
-	os.Stdout.Write(temp)
+	os.Stdout.Write(digits)
 	os.Stdout.Write([]byte("\n"))
 }
 
