@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-// parseInt manually converts a string to an integer.
+// parseInt converts a string to an integer manually.
 func parseInt(s string) (int, error) {
 	if len(s) == 0 {
 		return 0, fmt.Errorf("empty string cannot be converted to int")
@@ -33,7 +33,7 @@ func parseInt(s string) (int, error) {
 	return num * sign, nil
 }
 
-// numberOfBytes processes command-line arguments and extracts the number of bytes and file names.
+// numberOfBytes processes command-line arguments to extract the number of bytes and file names.
 func numberOfBytes(args []string) (int, []string) {
 	n := len(args)
 	nbytes := 0
@@ -65,7 +65,7 @@ func numberOfBytes(args []string) (int, []string) {
 	return nbytes, files
 }
 
-// fileSize gets the size of the file.
+// fileSize retrieves the size of the file.
 func fileSize(fi *os.File) int64 {
 	fileInfo, err := fi.Stat()
 	if err != nil {
