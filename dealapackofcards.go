@@ -12,10 +12,10 @@ func DealAPackOfCards(deck []int) {
 		fmt.Printf("player : %d", i+1)
 		for j, v := range card {
 			if j > 0 {
-				print(", ")
+				fmt.Printf(", ")
 			}
-			print(v)
+			fmt.Printf("%d",v)
 		}
-		fmt.Println()
+		fmt.Printf("\n")
 	}
 }
