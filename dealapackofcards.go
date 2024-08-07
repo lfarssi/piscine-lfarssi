@@ -9,7 +9,7 @@ func DealAPackOfCards(deck []int) {
 		start := i * Card
 		end := start + Card
 		card := deck[start:end]
-		fmt.Printf("player %d: ", i+1)
+		fmt.Printf("Player %d: ", i+1)
 		for j, v := range card {
 			if j > 0 {
 				fmt.Printf(", ")
