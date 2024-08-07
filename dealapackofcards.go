@@ -5,7 +5,7 @@ import "fmt"
 func DealAPackOfCards(deck []int) {
 	var player int = 4
 	var Card int = 3
-	for i := 0; i < player ; i++ {
+	for i := 0; i < player; i++ {
 		start := i * Card
 		end := start + Card
 		card := deck[start:end]
