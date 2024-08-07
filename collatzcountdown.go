@@ -1,11 +1,10 @@
 package piscine
 
-var down int
-
 func CollatzCountdown(start int) int {
 	if start <= 0 {
 		return -1
 	}
+	var down int = 0
 	for start != 1 {
 		if start%2 == 0 {
 			start /= 2
