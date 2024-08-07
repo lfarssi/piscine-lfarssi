@@ -10,7 +10,7 @@ func CollatzCountdown(start int) int {
 		if start%2 == 0 {
 			start /= 2
 		} else {
-			start = (start * 3) + 1
+			start = start*3 + 1
 		}
 		down++
 	}
