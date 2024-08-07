@@ -22,5 +22,4 @@ func DescendComb() {
 			}
 		}
 	}
-	z01.PrintRune('\n')
 }
