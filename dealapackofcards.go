@@ -14,7 +14,7 @@ func DealAPackOfCards(deck []int) {
 			if j > 0 {
 				fmt.Printf(", ")
 			}
-			fmt.Printf("%d",v)
+			fmt.Printf("%d", v)
 		}
 		fmt.Printf("\n")
 	}
