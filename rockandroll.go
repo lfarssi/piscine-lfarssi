@@ -2,13 +2,13 @@ package piscine
 
 func RockAndRoll(n int) string {
 	if n < 0 {
-		return "error: non divisible"
+		return "error: non divisible\n"
 	} else if n%2 == 0 && n%3 == 0 {
-		return "rock and roll"
+		return "rock and roll\n"
 	} else if n%3 == 0 {
-		return "roll"
+		return "roll\n"
 	} else if n%2 == 0 {
-		return "rock"
+		return "rock\n"
 	}
-	return "error: non divisible"
+	return "error: non divisible\n"
 }
