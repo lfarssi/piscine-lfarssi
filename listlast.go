@@ -5,7 +5,7 @@ func ListLast(l *List) interface{} {
 		return nil
 	}
 	current := l.Head
-	if current.Next != nil {
+	for current.Next != nil {
 		current = current.Next
 	}
 	return current.Data
