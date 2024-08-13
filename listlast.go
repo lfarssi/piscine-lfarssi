@@ -4,8 +4,9 @@ func ListLast(l *List) interface{} {
 	if l.Head == nil {
 		return nil
 	}
-	if l.Head.Next != nil {
-		l.Head = l.Head.Next
+	current := l.Head
+	if current.Next != nil {
+		current = current.Next
 	}
-	return l.Head.Data
+	return current.Data
 }
