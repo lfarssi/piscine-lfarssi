@@ -1,7 +1,28 @@
 package main
 
-import "piscine"
+import (
+	"fmt"
+
+	"piscine"
+)
 
 func main() {
-	piscine.DescendComb()
+	link := &piscine.List{}
+
+	piscine.ListPushBack(link, 1)
+	piscine.ListPushBack(link, 2)
+	piscine.ListPushBack(link, 3)
+	piscine.ListPushBack(link, 4)
+
+	piscine.ListReverse(link)
+
+	it := link.Head
+
+	for it != nil {
+		fmt.Println(it.Data)
+		it = it.Next
+	}
+
+	fmt.Println("Tail", link.Tail)
+	fmt.Println("Head", link.Head)
 }
