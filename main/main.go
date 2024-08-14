@@ -6,22 +6,29 @@ import (
 )
 
 func main() {
-	link := &piscine.List{}
+	// Create the root node
+	root := &piscine.TreeNode{Data: "08"}
 
-	piscine.ListPushBack(link, 1)
-	piscine.ListPushBack(link, 2)
-	piscine.ListPushBack(link, 3)
-	piscine.ListPushBack(link, 4)
+	// Insert nodes
+	piscine.BTreeInsertData(root, "x")
+	piscine.BTreeInsertData(root, "y")
 
-	piscine.ListReverse(link)
+	// Print the structure of the tree
+	printTree(root)
+}
 
-	it := link.Head
-
-	for it != nil {
-		fmt.Println(it.Data)
-		it = it.Next
+// Helper function to print the tree structure
+func printTree(node *piscine.TreeNode) {
+	if node == nil {
+		return
 	}
-
-	fmt.Println("Tail", link.Tail)
-	fmt.Println("Head", link.Head)
+	if node.Left != nil {
+		fmt.Println(node.Left.Data)
+	}
+	fmt.Println(node.Data)
+	if node.Right != nil {
+		fmt.Println(node.Right.Data)
+	}
+	printTree(node.Left)
+	printTree(node.Right)
 }

@@ -8,29 +8,29 @@ type TreeNode struct {
 // BTreeInsertData inserts a new node with the given data into the binary search tree
 func BTreeInsertData(root *TreeNode, data string) *TreeNode {
 	if root == nil {
-		// If the tree is empty, create a new node and return it as the root
+		// Create a new node if the tree is empty
 		return &TreeNode{Data: data}
 	}
 
-	// Helper function to insert data recursively
+	// Recursive function to find the correct insertion point
 	var insert func(node *TreeNode, data string) *TreeNode
 	insert = func(node *TreeNode, data string) *TreeNode {
 		if data < node.Data {
+			// Insert into the left subtree
 			if node.Left == nil {
-				// Insert the new node as the left child
 				node.Left = &TreeNode{Data: data, Parent: node}
 				return node.Left
 			}
 			return insert(node.Left, data)
 		} else if data > node.Data {
+			// Insert into the right subtree
 			if node.Right == nil {
-				// Insert the new node as the right child
 				node.Right = &TreeNode{Data: data, Parent: node}
 				return node.Right
 			}
 			return insert(node.Right, data)
 		}
-		// If data == node.Data, we do nothing as it's a duplicate
+		// Data is equal to the current node's data; do nothing to avoid duplicates
 		return nil
 	}
 
