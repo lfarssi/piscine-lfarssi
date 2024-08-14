@@ -1,5 +1,10 @@
 package piscine
 
+type TreeNode struct {
+	Left, Right, Parent *TreeNode
+	Data                 string
+}
+
 func BTreeDeleteNode(root, nodeToRemove *TreeNode) *TreeNode {
 	if nodeToRemove == nil {
 		return root
@@ -24,4 +29,14 @@ func BTreeDeleteNode(root, nodeToRemove *TreeNode) *TreeNode {
 		}
 	}
 	return root
+}
+
+func BTreeMin(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root.Left == nil {
+		return root
+	}
+	return BTreeMin(root.Left)
 }
