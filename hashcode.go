@@ -6,7 +6,7 @@ func HashCode(dec string) string {
 		if ch >= 32 && ch <= 127 {
 			result += string(int(ch) + len(dec)%127)
 		} else if ch < 32 {
-			result += string(int(ch)+len(dec)%127 + 33)
+			result += string(int(ch) + len(dec)%127 + 33)
 		}
 	}
 	return result
