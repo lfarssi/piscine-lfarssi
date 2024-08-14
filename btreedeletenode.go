@@ -43,3 +43,51 @@ func BTreeMin(root *TreeNode) *TreeNode {
 	}
 	return root
 }
+
+func BTreeSearchItem(root *TreeNode, elem string) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if elem < root.Data {
+		return BTreeSearchItem(root.Left, elem)
+	} else if elem > root.Data {
+		return BTreeSearchItem(root.Right, elem)
+	}
+	return root
+}
+
+func BTreeIsBinary(root *TreeNode) bool {
+	return isBinary(root, nil, nil)
+}
+
+func isBinary(node *TreeNode, min *TreeNode, max *TreeNode) bool {
+	if node == nil {
+		return true
+	}
+	if min != nil && node.Data <= min.Data {
+		return false
+	}
+	if max != nil && node.Data >= max.Data {
+		return false
+	}
+	return isBinary(node.Left, min, node) && isBinary(node.Right, node, max)
+}
+
+func BTreeInsertData(root *TreeNode, data string) *TreeNode {
+	if root == nil {
+		return &TreeNode{Data: data}
+	}
+	if data < root.Data {
+		root.Left = BTreeInsertData(root.Left, data)
+		if root.Left != nil {
+			root.Left.Parent = root
+		}
+	} else {
+		root.Right = BTreeInsertData(root.Right, data)
+		if root.Right != nil {
+			root.Right.Parent = root
+		}
+	}
+	return root
+}
+
